@@ -87,7 +87,10 @@ The feature matrix (area, perimeter, compactness, distances, land use code) and 
     Adding features like distance to commercial centers, elevation, population density, or parcel shape regularity could improve predictions. Features that capture more of the social and economic context around a parcel would help the model distinguish between similar-looking land types.
 
 ### Milestone 5 – Prediction & Export
-Predict all parcels, export to GeoJSON.
+
+**Spatial Misclassification Reflection**
+
+The output shows each parcel with its actual class (ASS_CLASSI), what the model predicted (predicted_label), and whether it was correct (correct_prediction). Most parcels were correctly identified — rows 0, 1, 2, and 4 were all predicted as class A and matched the actual label. Row 3 was a misclassification where the model predicted R (Residential) but the actual class was A (Agricultural). That parcel likely sits near a residential zone and its feature values — size, shape, distance to roads, surrounding land use — looked similar enough to residential that the model got confused. With 96.18% accuracy, only about 4 out of every 100 parcels are misclassified. Errors are most likely parcels sitting on the edge between two land use zones where the features of both classes overlap.
 
 ### Milestone 6 – Visualization
 Generate feature importance and confusion matrix plots.

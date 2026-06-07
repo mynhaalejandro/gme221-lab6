@@ -121,3 +121,41 @@ y_pred = model.predict(X_test)
 # D.7 Evaluate model
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
+
+# ── Part E: Apply Predictions to Spatial Data ─────────────────────────────────
+
+# E.1 Predict all parcels
+data["predicted_class"] = model.predict(X)
+
+# E.2 Convert codes back to labels
+categories = (
+    data["ASS_CLASSI"]
+    .astype("category")
+    .cat.categories
+)
+
+data["predicted_label"] = data["predicted_class"].apply(
+    lambda code: categories[code]
+)
+
+# E.3 Compare actual vs predicted
+data["correct_prediction"] = (
+    data["ASS_CLASSI"] == data["predicted_label"]
+)
+
+print(
+    data[["ASS_CLASSI", "predicted_label", "correct_prediction"]].head()
+)
+
+# ── Part F: Export GeoAI Results ──────────────────────────────────────────────
+
+# F.1 Remove temporary columns
+data = data.drop(columns=["centroid"], errors="ignore")
+
+# F.2 Export to GeoJSON
+data.to_file(
+    "output/parcel_geoai_prediction.geojson",
+    driver="GeoJSON"
+)
+
+print("GeoAI output exported.")
