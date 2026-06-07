@@ -63,7 +63,16 @@ All six map layers (parcels, roads, water, landuse, schools, tourism) were loade
    No. This step is just loading and organizing the data. No predictions are being made and no model is being trained yet — we are simply making sure all the layers are loaded correctly and ready to use.
 
 ### Milestone 3 – Feature Engineering
-Compute area, perimeter, and proximity features per parcel.
+Geometry features (area, perimeter, compactness) and proximity features (distance to roads, water, schools, tourism) were computed for each parcel. Land use context was added through a spatial join and encoded as numbers. This step converts raw GIS data into a table of numbers that a machine learning model can actually read and learn from.
+
+5. **Why can geometry not be used directly in ML?**  
+   Machine learning models only work with numbers. A polygon shape has no numeric meaning on its own — it needs to be broken down into measurable values like area, perimeter, or compactness before a model can use it.
+
+6. **Why are distances meaningful features?**  
+   Distance tells the model how close or far a parcel is from things that affect land use — like roads, schools, or water. A parcel right next to a road behaves very differently from one deep in a rural area, and those differences help the model make better predictions.
+
+7. **Which feature do you think is most influential?**  
+   Distance to roads is likely the most influential because road access directly drives how land gets developed and used. Parcels near roads tend to shift toward commercial or residential use, while remote parcels tend to stay agricultural.
 
 ### Milestone 4 – Model Training
 Build ML dataset, train Random Forest classifier, evaluate.
