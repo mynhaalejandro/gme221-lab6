@@ -75,7 +75,16 @@ Geometry features (area, perimeter, compactness) and proximity features (distanc
    Distance to roads is likely the most influential because road access directly drives how land gets developed and used. Parcels near roads tend to shift toward commercial or residential use, while remote parcels tend to stay agricultural.
 
 ### Milestone 4 – Model Training
-Build ML dataset, train Random Forest classifier, evaluate.
+The feature matrix (area, perimeter, compactness, distances, land use code) and target variable (ASS_CLASSI) were prepared. Rows with missing values were removed, the data was split 70/30 into training and testing sets, and a Random Forest classifier was trained on 100 decision trees. The model achieved an accuracy of 96.18% on the test set.
+
+8. **What does accuracy mean spatially?**  
+   Accuracy means the model correctly predicted the land use class for about 96 out of every 100 parcels it had never seen before. Spatially, this means the model is correctly identifying what type of land a parcel is based on its shape, size, and surroundings.
+
+9. **Can a model have high accuracy but poor spatial interpretation?**  
+   Yes. If most parcels in the dataset belong to one class (like residential), the model can score high accuracy just by predicting that class most of the time, even if it completely misses other land use types. High accuracy does not always mean the model understands the full spatial picture.
+
+10. **What features may improve the model?**  
+    Adding features like distance to commercial centers, elevation, population density, or parcel shape regularity could improve predictions. Features that capture more of the social and economic context around a parcel would help the model distinguish between similar-looking land types.
 
 ### Milestone 5 – Prediction & Export
 Predict all parcels, export to GeoJSON.
