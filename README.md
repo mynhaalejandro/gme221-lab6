@@ -102,3 +102,20 @@ Two additional spatial features were added — count of schools within 500m and 
 | KNN | 94.75% |
 
 Adding the two new features improved Random Forest from 96.18% to 96.32%. Random Forest remained the best performing model. Decision Tree and KNN both scored around 94.7–94.9%, trailing by about 1.5%. Random Forest handles the spatial complexity of this dataset better because it builds many decision trees and averages their results, making it more resilient to noisy or overlapping feature values near land use boundaries.
+
+## Final Reflection
+
+11. **How is GeoAI different from traditional GIS analysis?**  
+    Traditional GIS follows rules that a person writes manually — like drawing a buffer or running an overlay. GeoAI learns the rules from the data itself. Instead of telling the system what matters, you give it examples and it figures out the patterns on its own.
+
+12. **What spatial features most influenced the model?**  
+    Based on the model's feature importances, parcel area (19.8%) and perimeter (18.1%) were the top two features, followed by distance to roads (14.5%) and distance to tourism (12.2%). Geometry features ranked highest because parcel size and shape vary significantly across land use classes — large irregular parcels tend to be agricultural while smaller compact ones are more often residential or commercial. Distance to roads and tourism carried the next most weight, confirming that proximity to infrastructure and economic activity also drives classification. Land use context code ranked lowest (4.0%), likely because it partially overlaps with the information already captured by the geometry and distance features.
+
+13. **What are the limitations of this model?**  
+    The model only knows what it was trained on. If the data has errors or is outdated, the predictions will reflect those problems. It also struggles with parcels on the boundary between two zones where features overlap. It cannot account for local knowledge, zoning rules, or future development plans.
+
+14. **How can this support spatial decision-making?**  
+    Planners can use the predictions to quickly flag parcels that may be misclassified or have changed use over time. It speeds up large-scale land use reviews and helps identify areas where field verification is needed. It can also help prioritize where development or conservation efforts should be focused.
+
+15. **What ethical or planning concerns may arise from predictive parcel classification?**  
+    If the model is used to make decisions about land value, taxation, or development approvals, errors could unfairly affect landowners. Predictions based on proximity to roads or tourism could reinforce existing inequalities by favoring already developed areas. Any model used in planning should be validated by humans before decisions are made.

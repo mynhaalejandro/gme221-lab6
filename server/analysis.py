@@ -122,6 +122,18 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
+# D.8 Feature importance
+import pandas as pd
+import matplotlib.pyplot as plt
+
+importances = pd.Series(model.feature_importances_, index=features).sort_values(ascending=False)
+print("\nFeature Importances:\n", importances)
+
+importances.plot(kind="bar", title="Feature Importance")
+plt.tight_layout()
+plt.savefig("output/feature_importance.png")
+plt.close()
+
 # ── Part E: Apply Predictions to Spatial Data ─────────────────────────────────
 
 # E.1 Predict all parcels
