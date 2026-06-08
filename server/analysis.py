@@ -159,3 +159,45 @@ data.to_file(
 )
 
 print("GeoAI output exported.")
+
+# ── Part G: Challenge – Improved Model ────────────────────────────────────────
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+
+# G.1 Additional spatial features
+# Count of schools within 500m
+data = data.copy()
+data["schools_within_500m"] = data["centroid"].apply(
+    lambda p: (schools.distance(p) <= 500).sum()
+) if "centroid" in data.columns else data["geometry"].centroid.apply(
+    lambda p: (schools.distance(p) <= 500).sum()
+)
+
+# Tourism density within 1km
+data["tourism_within_1km"] = data["geometry"].centroid.apply(
+    lambda p: (tourism.distance(p) <= 1000).sum()
+)
+
+# G.2 Extended feature set
+features_g = features + ["schools_within_500m", "tourism_within_1km"]
+data_g = data.dropna(subset=features_g + ["target_code"])
+
+X_g = data_g[features_g]
+y_g = data_g["target_code"]
+
+X_train_g, X_test_g, y_train_g, y_test_g = train_test_split(
+    X_g, y_g, test_size=0.30, random_state=42
+)
+
+# G.3 Compare classifiers
+classifiers = {
+    "Random Forest":  RandomForestClassifier(n_estimators=100, random_state=42),
+    "Decision Tree":  DecisionTreeClassifier(random_state=42),
+    "KNN":            KNeighborsClassifier(n_neighbors=5)
+}
+
+print("\nModel Comparison (with additional features):")
+for name, clf in classifiers.items():
+    clf.fit(X_train_g, y_train_g)
+    acc = accuracy_score(y_test_g, clf.predict(X_test_g))
+    print(f"  {name}: {acc:.4f}")

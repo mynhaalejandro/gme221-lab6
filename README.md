@@ -92,5 +92,13 @@ The feature matrix (area, perimeter, compactness, distances, land use code) and 
 
 The output shows each parcel with its actual class (ASS_CLASSI), what the model predicted (predicted_label), and whether it was correct (correct_prediction). Most parcels were correctly identified — rows 0, 1, 2, and 4 were all predicted as class A and matched the actual label. Row 3 was a misclassification where the model predicted R (Residential) but the actual class was A (Agricultural). That parcel likely sits near a residential zone and its feature values — size, shape, distance to roads, surrounding land use — looked similar enough to residential that the model got confused. With 96.18% accuracy, only about 4 out of every 100 parcels are misclassified. Errors are most likely parcels sitting on the edge between two land use zones where the features of both classes overlap.
 
-### Milestone 6 – Visualization
-Generate feature importance and confusion matrix plots.
+### Milestone 6 – Challenge: Model Improvement
+Two additional spatial features were added — count of schools within 500m and count of tourism sites within 1km. Three classifiers were trained and compared using the extended feature set.
+
+| Model | Accuracy |
+|---|---|
+| Random Forest | 96.32% |
+| Decision Tree | 94.89% |
+| KNN | 94.75% |
+
+Adding the two new features improved Random Forest from 96.18% to 96.32%. Random Forest remained the best performing model. Decision Tree and KNN both scored around 94.7–94.9%, trailing by about 1.5%. Random Forest handles the spatial complexity of this dataset better because it builds many decision trees and averages their results, making it more resilient to noisy or overlapping feature values near land use boundaries.
